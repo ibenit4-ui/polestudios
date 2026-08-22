@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>POLE Studios</title>
+<meta name="description" content="Catalogo online de POLE Studios. Sudaderas y prendas de manga larga. Pedidos por DM.">
+<meta name="theme-color" content="#171512">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="POLE Studios">
+<meta property="og:description" content="Catalogo online de POLE Studios. Sudaderas y prendas de manga larga. Pedidos por DM.">
+<meta property="og:image" content="assets/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,900;1,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+<style>
+  :root{
+    --bg:#ECE7DE;
+    --surface:#DFD8CB;
+    --surface-2:#D2CABA;
+    --ink:#1B1812;
+    --muted:#6F6759;
+    --accent:#8C5850;
+    --accent-ink:#FBF3F0;
+    --accent-2:#5F7259;
+    --line:#CDC3AE;
+    --shadow:0 18px 40px -20px rgba(27,24,18,.35);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#161310;
+      --surface:#211C16;
+      --surface-2:#2A241C;
+      --ink:#F1ECE1;
+      --muted:#A79C89;
+      --accent:#D3A69C;
+      --accent-ink:#241411;
+      --accent-2:#9BB092;
+      --line:#3A3327;
+      --shadow:0 18px 44px -18px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#161310;
+    --surface:#211C16;
+    --surface-2:#2A241C;
+    --ink:#F1ECE1;
+    --muted:#A79C89;
+    --accent:#D3A69C;
+    --accent-ink:#241411;
+    --accent-2:#9BB092;
+    --line:#3A3327;
+    --shadow:0 18px 44px -18px rgba(0,0,0,.6);
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Archivo",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+
+  .display{
+    font-family:"Archivo","Archivo Black",Impact,sans-serif;
+    font-weight:900;
+    letter-spacing:-.015em;
+    text-wrap:balance;
+  }
+  .mono{
+    font-family:"IBM Plex Mono","SFMono-Regular",Menlo,monospace;
+  }
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+
+  /* ---------------- Banner ---------------- */
+  .banner{
+    background:var(--ink);color:var(--bg);
+    overflow:hidden;white-space:nowrap;
+  }
+  .banner-inner{
+    display:flex;width:max-content;
+    animation:banner-scroll var(--banner-duration, 55s) linear infinite;
+  }
+  .banner-track{
+    display:flex;flex-shrink:0;padding:9px 0;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
+  }
+  .banner-track span{display:inline-block;padding:0 22px;white-space:nowrap;}
+  .banner-track span::after{content:"\2726";margin-left:22px;opacity:.55;color:var(--accent);}
+  @keyframes banner-scroll{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .banner-inner{animation:none;}
+    .banner{overflow-x:auto;}
+  }
+
+  /* ---------------- Top bar (flota sobre el vídeo, se vuelve sólida al hacer scroll) ---------------- */
+  .site-chrome{
+    position:fixed;top:0;left:0;right:0;z-index:40;
+  }
+  .topbar{
+    background:rgba(20,17,13,.16);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(244,239,230,.16);
+    transition:background .35s ease, border-color .35s ease;
+  }
+  .topbar-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding-top:16px;padding-bottom:16px;gap:16px;flex-wrap:wrap;
+  }
+  .brandmark{display:flex;align-items:center;gap:12px;text-decoration:none;}
+  .brandmark img{height:34px;width:auto;filter:brightness(0) invert(1);transition:filter .35s ease;}
+  .brandmark .name{
+    font-family:"Archivo",sans-serif;font-weight:900;font-size:1.25rem;letter-spacing:-.01em;
+    color:#F4EFE6;transition:color .35s ease;
+  }
+
+  .chips{display:flex;gap:8px;flex-wrap:wrap;}
+  .chip{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;
+    padding:8px 14px;border-radius:999px;border:1px solid rgba(244,239,230,.4);
+    background:transparent;color:rgba(244,239,230,.85);cursor:pointer;
+    transition:background .2s ease, color .2s ease, border-color .2s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .chip:hover{border-color:#F4EFE6;color:#F4EFE6;}
+  .chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .chip[aria-pressed="true"]{
+    background:#F4EFE6;color:var(--ink);border-color:#F4EFE6;
+  }
+
+  /* Estado sólido: una vez el hero ha quedado atrás al hacer scroll */
+  .site-chrome.is-solid .topbar{
+    background:color-mix(in srgb, var(--bg) 92%, transparent);
+    border-bottom-color:var(--line);
+  }
+  .site-chrome.is-solid .brandmark img{filter:none;}
+  .site-chrome.is-solid .brandmark .name{color:var(--ink);}
+  .site-chrome.is-solid .chip{color:var(--muted);border-color:var(--line);}
+  .site-chrome.is-solid .chip:hover{border-color:var(--accent);color:var(--ink);}
+  .site-chrome.is-solid .chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink);}
+
+  /* ---------------- Hero ---------------- */
+  .hero{
+    position:relative;
+    min-height:min(78vh, 620px);
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+    isolation:isolate;
+  }
+  .hero-media{position:absolute;inset:0;z-index:-2;}
+  .hero-media video{width:100%;height:100%;object-fit:cover;object-position:50% 30%;}
+  .hero-media::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(15,13,10,.15) 0%, rgba(15,13,10,.42) 55%, rgba(15,13,10,.7) 100%);
+  }
+  .hero-grain{
+    position:absolute;inset:0;z-index:-1;opacity:.5;mix-blend-mode:overlay;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+  .hero-content{
+    position:relative;z-index:1;padding-top:14vh;color:#F4EFE6;width:100%;
+    text-align:center;
+  }
+  .hero h1{
+    font-size:clamp(1.9rem, 7vw, 4.6rem);
+    line-height:1;margin:0;
+    text-transform:uppercase;
+    white-space:nowrap;
+  }
+  .hero p{
+    max-width:46ch;color:rgba(244,239,230,.82);
+    font-size:1.02rem;line-height:1.55;margin:0;
+  }
+
+  /* ---------------- Grid ---------------- */
+  .catalog{padding-top:56px;padding-bottom:30px;}
+  .catalog-head{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    gap:20px;flex-wrap:wrap;margin-bottom:28px;
+  }
+  .catalog-head h2{font-size:1.9rem;margin:0 0 6px;}
+  .count{color:var(--muted);font-size:.92rem;}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));
+    gap:26px;
+    transition:opacity .28s ease;
+  }
+  .grid.is-filtering{opacity:0;}
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:6px;
+    overflow:hidden;
+    cursor:pointer;
+    text-align:left;
+    padding:0;
+    color:inherit;
+    font:inherit;
+    display:flex;flex-direction:column;
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease;
+    animation:rise .5s cubic-bezier(.2,.8,.2,1) both;
+  }
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--accent);}
+  .card:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+
+  .card-media{
+    aspect-ratio:4/5;overflow:hidden;background:var(--surface-2);position:relative;
+  }
+  .card-media img{
+    width:100%;height:100%;object-fit:cover;object-position:50% 12%;
+    transition:transform .6s cubic-bezier(.2,.8,.2,1);
+  }
+  .card:hover .card-media img{transform:scale(1.05);}
+
+  .card-badge{
+    position:absolute;top:12px;left:12px;
+    background:var(--accent);color:var(--accent-ink);
+    font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+    padding:5px 10px;border-radius:999px;
+  }
+
+  .card-body{padding:16px 16px 18px;display:flex;flex-direction:column;gap:6px;flex:1;}
+  .card-body .eyebrow{margin:0;}
+  .card-body h3{
+    font-family:"Archivo",sans-serif;font-weight:900;font-size:1.08rem;letter-spacing:-.01em;
+    margin:0;line-height:1.15;
+  }
+  .card-sizes{color:var(--muted);font-size:.82rem;margin-top:auto;padding-top:6px;}
+
+  .empty{padding:80px 0;text-align:center;color:var(--muted);}
+
+  @keyframes rise{
+    from{opacity:0;transform:translateY(14px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  /* ---------------- Footer ---------------- */
+  footer{
+    border-top:1px solid var(--line);
+    padding:34px 0 46px;
+    margin-top:20px;
+  }
+  .footer-inner{
+    display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+  }
+  footer .brandmark .name{font-size:1.1rem;}
+  footer .note{color:var(--muted);font-size:.86rem;max-width:38ch;text-align:right;}
+
+  /* ---------------- Lightbox ---------------- */
+  .lightbox{
+    position:fixed;inset:0;z-index:100;
+    display:flex;align-items:center;justify-content:center;
+    padding:24px;
+    background:rgba(15,13,10,.72);
+    opacity:0;pointer-events:none;
+    transition:opacity .25s ease;
+  }
+  .lightbox.is-open{opacity:1;pointer-events:auto;}
+  .lightbox-panel{
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:8px;
+    max-width:980px;width:100%;
+    max-height:88vh;
+    overflow:auto;
+    display:grid;
+    grid-template-columns:1.05fr 1fr;
+    box-shadow:var(--shadow);
+    transform:translateY(18px) scale(.98);
+    transition:transform .3s cubic-bezier(.2,.8,.2,1);
+  }
+  .lightbox.is-open .lightbox-panel{transform:translateY(0) scale(1);}
+  @media (max-width:760px){
+    .lightbox-panel{grid-template-columns:1fr;}
+  }
+  .lightbox-media{background:var(--surface-2);aspect-ratio:4/5;}
+  .lightbox-media img{width:100%;height:100%;object-fit:cover;object-position:50% 12%;}
+  .lightbox-info{padding:32px;position:relative;display:flex;flex-direction:column;}
+  .lightbox-close{
+    position:absolute;top:16px;right:16px;
+    width:36px;height:36px;border-radius:50%;
+    border:1px solid var(--line);background:var(--surface);color:var(--ink);
+    font-size:1.1rem;line-height:1;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .lightbox-close:hover{border-color:var(--accent);}
+  .lightbox-close:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .lightbox-info h3{
+    font-family:"Archivo",sans-serif;font-weight:900;font-size:1.85rem;letter-spacing:-.015em;margin:10px 0 14px;line-height:1.05;
+  }
+  .lightbox-info p.desc{line-height:1.6;color:var(--ink);margin:0 0 22px;}
+  .sizes-label{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+  .sizes{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px;}
+  .size-pill{border:1px solid var(--line);border-radius:4px;padding:6px 13px;font-family:"IBM Plex Mono",monospace;font-size:.82rem;}
+
+  .stamp{
+    margin-top:auto;
+    display:inline-flex;align-items:center;gap:10px;
+    align-self:flex-start;
+    border:1px solid var(--line);border-radius:999px;
+    padding:8px 14px 8px 8px;
+  }
+  .stamp .ring{
+    width:26px;height:26px;border-radius:50%;border:1.5px solid var(--accent);
+    display:flex;align-items:center;justify-content:center;
+    font-family:"Archivo",sans-serif;font-weight:900;font-size:.62rem;color:var(--accent);
+  }
+  .stamp span.txt{
+    font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  }
+
+  .lb-nav{display:flex;gap:10px;margin-top:22px;}
+  .lb-nav button{
+    font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
+    border:1px solid var(--line);background:transparent;color:var(--muted);
+    padding:9px 14px;border-radius:999px;cursor:pointer;
+  }
+  .lb-nav button:hover{color:var(--ink);border-color:var(--accent);}
+  .lb-nav button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  /* ---------------- Popup de aviso ---------------- */
+  .promo{
+    position:fixed;inset:0;z-index:200;
+    display:flex;align-items:center;justify-content:center;
+    padding:20px;
+    opacity:0;pointer-events:none;
+    transition:opacity .3s ease;
+  }
+  .promo.is-open{opacity:1;pointer-events:auto;}
+  .promo-backdrop{
+    position:absolute;inset:0;background:rgba(15,13,10,.7);
+  }
+  .promo-card{
+    position:relative;z-index:1;
+    width:100%;max-width:360px;
+    border-radius:10px;overflow:hidden;
+    background:var(--surface-2);
+    box-shadow:var(--shadow);
+    transform:translateY(16px) scale(.97);
+    transition:transform .32s cubic-bezier(.2,.8,.2,1);
+    aspect-ratio:3/4;
+  }
+  .promo.is-open .promo-card{transform:translateY(0) scale(1);}
+  .promo-card img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;}
+  .promo-card::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(15,13,10,0) 40%, rgba(15,13,10,.82) 100%);
+    pointer-events:none;
+  }
+  .promo-text{
+    position:absolute;left:0;right:0;bottom:0;z-index:1;
+    padding:22px 22px 26px;color:#F4EFE6;text-align:center;
+  }
+  .promo-text h2{
+    font-family:"Archivo",sans-serif;font-weight:900;letter-spacing:-.02em;
+    font-size:1.9rem;line-height:1;margin:0 0 8px;text-transform:uppercase;
+  }
+  .promo-sub{
+    font-style:italic;font-size:.86rem;color:rgba(244,239,230,.88);margin:0;
+  }
+  .promo-close{
+    position:absolute;top:12px;right:12px;z-index:2;
+    width:34px;height:34px;border-radius:50%;
+    border:1px solid rgba(244,239,230,.5);background:rgba(15,13,10,.35);
+    color:#F4EFE6;font-size:1.1rem;line-height:1;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    backdrop-filter:blur(2px);
+  }
+  .promo-close:hover{background:rgba(15,13,10,.6);}
+  .promo-close:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  /* ---------------- Botón flotante de WhatsApp ---------------- */
+  .whatsapp-fab{
+    position:fixed;right:20px;bottom:20px;z-index:150;
+    width:56px;height:56px;border-radius:50%;
+    background:#25D366;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 10px 26px -8px rgba(15,13,10,.55);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .whatsapp-fab:hover{transform:scale(1.07);box-shadow:0 14px 30px -8px rgba(15,13,10,.6);}
+  .whatsapp-fab:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+  .whatsapp-fab svg{width:29px;height:29px;fill:#fff;}
+  @media (max-width:600px){
+    .whatsapp-fab{right:16px;bottom:16px;width:52px;height:52px;}
+    .whatsapp-fab svg{width:27px;height:27px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important;transition-duration:.001ms !important;}
+  }
+</style>
+
+<div class="site-chrome" id="site-chrome">
+  <div class="banner" aria-hidden="true">
+    <div class="banner-inner" id="banner-inner">
+      <div class="banner-track" id="banner-track-a"><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span></div>
+      <div class="banner-track" id="banner-track-b"><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a href="#top" class="brandmark">
+        <img src="assets/logo.png" alt="POLE Studios">
+        <span class="name">POLE STUDIOS</span>
+      </a>
+      <nav class="chips" id="chips" aria-label="Filtrar por categoría"></nav>
+    </div>
+  </header>
+</div>
+
+<section class="hero" id="top">
+  <div class="hero-media">
+    <video autoplay muted loop playsinline preload="auto" poster="assets/hero-poster.jpg" aria-label="Vídeo de la colección POLE Studios">
+      <source src="assets/hero.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-grain" aria-hidden="true"></div>
+  <div class="wrap hero-content">
+    <h1 class="display">Pole Studios</h1>
+  </div>
+</section>
+
+<main class="wrap catalog">
+  <div class="catalog-head">
+    <div>
+      <h2 class="display">La colección</h2>
+      <p class="count" id="count"></p>
+    </div>
+  </div>
+  <div class="grid" id="grid"></div>
+  <p class="empty" id="empty" hidden>No hay prendas en esta categoría todavía.</p>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <a href="#top" class="brandmark"><img src="assets/logo.png" alt="POLE Studios"><span class="name">POLE STUDIOS</span></a>
+    <p class="note">Catálogo únicamente informativo — esta web no ofrece compra ni pago online.</p>
+  </div>
+</footer>
+
+<a class="whatsapp-fab" id="whatsapp-fab" href="https://wa.me/34688825797?text=Hola!%20Estoy%20interesado%20en%20POLE%20Studios%2C%20%C2%BFme%20dais%20m%C3%A1s%20info%3F" target="_blank" rel="noopener noreferrer" aria-label="Escríbenos por WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.05 21.785h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.999-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.002-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.002 5.45-4.437 9.884-9.886 9.884zm8.412-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.304-1.654a11.87 11.87 0 005.684 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.481-8.413z"/></svg>
+</a>
+
+<div class="promo" id="promo" role="dialog" aria-modal="true" aria-label="Are you ready">
+  <div class="promo-backdrop" id="promo-backdrop"></div>
+  <div class="promo-card">
+    <button class="promo-close" id="promo-close" aria-label="Cerrar aviso">&times;</button>
+    <img src="assets/promo.jpg" alt="POLE Studios">
+    <div class="promo-text">
+      <h2>Are you ready?</h2>
+      <p class="promo-sub">New clothes coming soon</p>
+    </div>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lb-title">
+  <div class="lightbox-panel">
+    <div class="lightbox-media"><img id="lb-img" src="" alt=""></div>
+    <div class="lightbox-info">
+      <button class="lightbox-close" id="lb-close" aria-label="Cerrar">&times;</button>
+      <p class="eyebrow" id="lb-cat"></p>
+      <h3 id="lb-title"></h3>
+      <p class="desc" id="lb-desc"></p>
+      <p class="sizes-label">Tallas disponibles</p>
+      <div class="sizes" id="lb-sizes"></div>
+      <div class="stamp"><span class="ring">P</span><span class="txt">Solo catálogo — sin venta online</span></div>
+      <div class="lb-nav">
+        <button id="lb-prev">&larr; Anterior</button>
+        <button id="lb-next">Siguiente &rarr;</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var PRODUCTS = [
+    {
+      id:1, name:"Sudadera POLE Studios Malva", cat:"sudaderas", catLabel:"Sudaderas",
+      desc:"Sudadera oversize con capucha en malva lavado. Logo de estrella POLE Studios serigrafiado en el pecho posterior y sello circular POLE en el bajo. Algodón grueso perchado.",
+      sizes:["S","M","L","XL"], img:"assets/sudadera-malva.jpg", featured:true
+    },
+    {
+      id:2, name:"Sudadera POLE Studios Verde Salvia", cat:"sudaderas", catLabel:"Sudaderas",
+      desc:"Sudadera oversize con capucha en verde salvia lavado, logo de estrella POLE Studios en amarillo a contraste. Algodón grueso perchado, corte relajado.",
+      sizes:["S","M","L","XL"], img:"assets/sudadera-verde.jpg", featured:true
+    },
+    {
+      id:3, name:"Sudadera POLE Studios Azul Piedra", cat:"sudaderas", catLabel:"Sudaderas",
+      desc:"Sudadera oversize con capucha en azul piedra, logo de estrella POLE Studios a contraste sobre el pecho posterior. Algodón grueso perchado.",
+      sizes:["S","M","L","XL"], img:"assets/sudadera-azul.jpg", featured:false
+    },
+    {
+      id:4, name:"Manga larga POLE Winter Blanca", cat:"manga-larga", catLabel:"Manga larga",
+      desc:"Camiseta de manga larga en blanco roto con gráfico de evolución y logo POLE Winter en la espalda. Corte relajado, algodón de peso medio.",
+      sizes:["S","M","L","XL"], img:"assets/manga-larga-blanca.jpg", featured:false
+    },
+    {
+      id:5, name:"Manga larga POLE Winter Marino", cat:"manga-larga", catLabel:"Manga larga",
+      desc:"Camiseta de manga larga en azul marino con gráfico de evolución y logo POLE Winter en la espalda. Corte relajado, algodón de peso medio.",
+      sizes:["S","M","L","XL"], img:"assets/manga-larga-marino.jpg", featured:false
+    }
+  ];
+
+  var CATS = [
+    {slug:"todo", label:"Todo"},
+    {slug:"sudaderas", label:"Sudaderas"},
+    {slug:"manga-larga", label:"Manga larga"}
+  ];
+
+  var state = { filter:"todo", lightboxIndex:-1, lastFocused:null };
+
+  var chipsEl = document.getElementById("chips");
+  var gridEl = document.getElementById("grid");
+  var countEl = document.getElementById("count");
+  var emptyEl = document.getElementById("empty");
+
+  function currentList(){
+    if(state.filter === "todo") return PRODUCTS;
+    return PRODUCTS.filter(function(p){ return p.cat === state.filter; });
+  }
+
+  function renderChips(){
+    chipsEl.innerHTML = "";
+    CATS.forEach(function(c){
+      var b = document.createElement("button");
+      b.className = "chip";
+      b.type = "button";
+      b.textContent = c.label;
+      b.setAttribute("aria-pressed", String(state.filter === c.slug));
+      b.addEventListener("click", function(){
+        if(state.filter === c.slug) return;
+        state.filter = c.slug;
+        renderChips();
+        transitionGrid();
+      });
+      chipsEl.appendChild(b);
+    });
+  }
+
+  function renderGrid(){
+    var list = currentList();
+    countEl.textContent = list.length + (list.length === 1 ? " prenda" : " prendas");
+    gridEl.innerHTML = "";
+    emptyEl.hidden = list.length > 0;
+    list.forEach(function(p, i){
+      var card = document.createElement("button");
+      card.type = "button";
+      card.className = "card";
+      card.style.animationDelay = (i * 45) + "ms";
+      card.setAttribute("aria-label", "Ver " + p.name);
+
+      var media = document.createElement("div");
+      media.className = "card-media";
+      var img = document.createElement("img");
+      img.src = p.img; img.alt = p.name; img.loading = "lazy";
+      media.appendChild(img);
+      if(p.featured){
+        var badge = document.createElement("span");
+        badge.className = "card-badge";
+        badge.textContent = "Destacado";
+        media.appendChild(badge);
+      }
+
+      var body = document.createElement("div");
+      body.className = "card-body";
+      body.innerHTML =
+        '<p class="eyebrow">' + p.catLabel + '</p>' +
+        '<h3>' + p.name + '</h3>' +
+        '<p class="card-sizes mono">' + p.sizes.join(" · ") + '</p>';
+
+      card.appendChild(media);
+      card.appendChild(body);
+      card.addEventListener("click", function(){ openLightbox(p.id, card); });
+      gridEl.appendChild(card);
+    });
+  }
+
+  function transitionGrid(){
+    gridEl.classList.add("is-filtering");
+    window.setTimeout(function(){
+      renderGrid();
+      gridEl.classList.remove("is-filtering");
+    }, 180);
+  }
+
+  // ---------- Lightbox ----------
+  var lb = document.getElementById("lightbox");
+  var lbImg = document.getElementById("lb-img");
+  var lbCat = document.getElementById("lb-cat");
+  var lbTitle = document.getElementById("lb-title");
+  var lbDesc = document.getElementById("lb-desc");
+  var lbSizes = document.getElementById("lb-sizes");
+  var lbClose = document.getElementById("lb-close");
+  var lbPrev = document.getElementById("lb-prev");
+  var lbNext = document.getElementById("lb-next");
+
+  function openLightbox(id, trigger){
+    var idx = PRODUCTS.findIndex(function(p){ return p.id === id; });
+    if(idx === -1) return;
+    state.lightboxIndex = idx;
+    state.lastFocused = trigger || document.activeElement;
+    renderLightbox();
+    lb.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+    lbClose.focus();
+    document.addEventListener("keydown", onKeydown);
+  }
+
+  function closeLightbox(){
+    lb.classList.remove("is-open");
+    document.body.style.overflow = "";
+    document.removeEventListener("keydown", onKeydown);
+    if(state.lastFocused && state.lastFocused.focus) state.lastFocused.focus();
+  }
+
+  function renderLightbox(){
+    var p = PRODUCTS[state.lightboxIndex];
+    if(!p) return;
+    lbImg.src = p.img; lbImg.alt = p.name;
+    lbCat.textContent = p.catLabel;
+    lbTitle.textContent = p.name;
+    lbDesc.textContent = p.desc;
+    lbSizes.innerHTML = "";
+    p.sizes.forEach(function(s){
+      var el = document.createElement("span");
+      el.className = "size-pill";
+      el.textContent = s;
+      lbSizes.appendChild(el);
+    });
+  }
+
+  function step(delta){
+    var n = PRODUCTS.length;
+    state.lightboxIndex = (state.lightboxIndex + delta + n) % n;
+    renderLightbox();
+    lbClose.focus();
+  }
+
+  function onKeydown(e){
+    if(e.key === "Escape") closeLightbox();
+    if(e.key === "ArrowRight") step(1);
+    if(e.key === "ArrowLeft") step(-1);
+  }
+
+  lbClose.addEventListener("click", closeLightbox);
+  lbPrev.addEventListener("click", function(){ step(-1); });
+  lbNext.addEventListener("click", function(){ step(1); });
+  lb.addEventListener("click", function(e){ if(e.target === lb) closeLightbox(); });
+
+  renderChips();
+  renderGrid();
+
+  // ---------- Cinta deslizante: velocidad constante, sin huecos ----------
+  (function setupBanner(){
+    var inner = document.getElementById("banner-inner");
+    var a = document.getElementById("banner-track-a");
+    var b = document.getElementById("banner-track-b");
+    if (!inner || !a || !b) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var baseHtml = a.innerHTML;
+    function ensureWidth(track){
+      var guard = 0;
+      while (track.scrollWidth < window.innerWidth + 400 && guard < 40) {
+        track.insertAdjacentHTML("beforeend", baseHtml);
+        guard++;
+      }
+    }
+    ensureWidth(a);
+    b.innerHTML = a.innerHTML;
+    var speed = 55; // px por segundo
+    var duration = Math.max(22, a.scrollWidth / speed);
+    inner.style.setProperty("--banner-duration", duration + "s");
+  })();
+
+  // ---------- Cabecera: sólida una vez el hero queda atrás al hacer scroll ----------
+  (function setupChrome(){
+    var chrome = document.getElementById("site-chrome");
+    var hero = document.getElementById("top");
+    if (!chrome || !hero) return;
+    function update(){
+      var threshold = hero.offsetHeight - chrome.offsetHeight;
+      chrome.classList.toggle("is-solid", window.scrollY > Math.max(threshold, 40));
+    }
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+  })();
+
+  // ---------- Vídeo de fondo: pausado si el usuario prefiere menos movimiento ----------
+  (function setupHeroVideo(){
+    var v = document.querySelector(".hero-media video");
+    if (!v) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      v.removeAttribute("autoplay");
+      v.pause();
+    }
+  })();
+
+  // ---------- Popup "Are you ready?" ----------
+  (function setupPromo(){
+    var promo = document.getElementById("promo");
+    var closeBtn = document.getElementById("promo-close");
+    var backdrop = document.getElementById("promo-backdrop");
+    if (!promo || !closeBtn || !backdrop) return;
+
+    var seen = false;
+    try { seen = sessionStorage.getItem("pole-promo-seen") === "1"; } catch (e) {}
+    if (seen) return;
+
+    function open(){
+      promo.classList.add("is-open");
+      document.addEventListener("keydown", onKeydown);
+      closeBtn.focus();
+    }
+    function close(){
+      promo.classList.remove("is-open");
+      document.removeEventListener("keydown", onKeydown);
+      try { sessionStorage.setItem("pole-promo-seen", "1"); } catch (e) {}
+    }
+    function onKeydown(e){ if (e.key === "Escape") close(); }
+
+    closeBtn.addEventListener("click", close);
+    backdrop.addEventListener("click", close);
+
+    window.setTimeout(open, 500);
+  })();
+})();
+</script>
+</body>
+</html>
