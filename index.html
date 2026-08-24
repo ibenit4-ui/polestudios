@@ -100,12 +100,15 @@
     animation:banner-scroll var(--banner-duration, 55s) linear infinite;
   }
   .banner-track{
-    display:flex;flex-shrink:0;padding:9px 0;
+    display:flex;flex-shrink:0;padding:22px 0;
     font-family:"IBM Plex Mono",monospace;
     font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
   }
   .banner-track span{display:inline-block;padding:0 22px;white-space:nowrap;}
   .banner-track span::after{content:"\2726";margin-left:22px;opacity:.55;color:var(--accent);}
+  @media (max-width:600px){
+    .banner-track{padding:18px 0;}
+  }
   @keyframes banner-scroll{
     from{transform:translateX(0);}
     to{transform:translateX(-50%);}
