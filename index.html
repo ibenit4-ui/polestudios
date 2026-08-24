@@ -6,12 +6,12 @@
 <title>POLE Studios</title>
 <meta name="description" content="Catalogo online de POLE Studios. Sudaderas y prendas de manga larga. Pedidos por DM.">
 <meta name="theme-color" content="#171512">
-<link rel="icon" type="image/png" href="assets/favicon.png">
-<link rel="apple-touch-icon" href="assets/favicon.png">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="POLE Studios">
 <meta property="og:description" content="Catalogo online de POLE Studios. Sudaderas y prendas de manga larga. Pedidos por DM.">
-<meta property="og:image" content="assets/og-image.jpg">
+<meta property="og:image" content="og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -253,6 +253,24 @@
   }
   .card-sizes{color:var(--muted);font-size:.82rem;margin-top:auto;padding-top:6px;}
 
+  /* ---------------- Precios rebajados ---------------- */
+  .precio{
+    margin:0;display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;
+    font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+  }
+  .precio .antes{
+    text-decoration:line-through;color:var(--muted);font-size:.82rem;
+  }
+  .precio .ahora{
+    color:var(--accent);font-weight:500;font-size:1rem;
+  }
+  .precio .dto{
+    background:var(--accent);color:var(--accent-ink);
+    font-size:.66rem;letter-spacing:.04em;font-weight:500;
+    padding:3px 7px;border-radius:999px;
+    align-self:center;
+  }
+
   .empty{padding:80px 0;text-align:center;color:var(--muted);}
 
   @keyframes rise{
@@ -315,8 +333,32 @@
     font-family:"Archivo",sans-serif;font-weight:900;font-size:1.85rem;letter-spacing:-.015em;margin:10px 0 14px;line-height:1.05;
   }
   .lightbox-info p.desc{line-height:1.6;color:var(--ink);margin:0 0 22px;}
+  .lightbox-info .precio{margin:0 0 20px;gap:11px;}
+  .lightbox-info .precio .antes{font-size:1rem;}
+  .lightbox-info .precio .ahora{font-size:1.45rem;font-weight:600;}
+  .lightbox-info .precio .dto{font-size:.74rem;padding:4px 9px;}
   .sizes-label{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
   .sizes{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px;}
+
+  /* Selector de color dentro de una prenda */
+  .colores{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px;}
+  .color-op{
+    display:flex;align-items:center;gap:9px;
+    padding:5px 12px 5px 5px;
+    border:1px solid var(--line);border-radius:999px;
+    background:transparent;color:var(--muted);cursor:pointer;
+    font-family:"IBM Plex Mono",monospace;font-size:.74rem;
+    transition:border-color .2s ease, color .2s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .color-op .muestra{
+    width:26px;height:26px;border-radius:50%;flex-shrink:0;
+    box-shadow:inset 0 0 0 1px rgba(27,24,18,.18);
+  }
+  .color-op:hover{border-color:var(--accent);color:var(--ink);}
+  .color-op:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .color-op.activo{border-color:var(--accent);color:var(--ink);}
+  .card-colores{color:var(--muted);font-size:.78rem;margin:0;}
   .size-pill{border:1px solid var(--line);border-radius:4px;padding:6px 13px;font-family:"IBM Plex Mono",monospace;font-size:.82rem;}
 
   .stamp{
@@ -395,21 +437,29 @@
   .promo-close:hover{background:rgba(15,13,10,.6);}
   .promo-close:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
 
-  /* ---------------- Botón flotante de WhatsApp ---------------- */
-  .whatsapp-fab{
+  /* ---------------- Botones flotantes (Instagram y WhatsApp) ---------------- */
+  .social-fab{
     position:fixed;right:20px;bottom:20px;z-index:150;
+    display:flex;flex-direction:column;gap:12px;
+  }
+  .fab{
     width:56px;height:56px;border-radius:50%;
-    background:#25D366;
     display:flex;align-items:center;justify-content:center;
     box-shadow:0 10px 26px -8px rgba(15,13,10,.55);
     transition:transform .2s ease, box-shadow .2s ease;
   }
-  .whatsapp-fab:hover{transform:scale(1.07);box-shadow:0 14px 30px -8px rgba(15,13,10,.6);}
-  .whatsapp-fab:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
-  .whatsapp-fab svg{width:29px;height:29px;fill:#fff;}
+  .fab:hover{transform:scale(1.07);box-shadow:0 14px 30px -8px rgba(15,13,10,.6);}
+  .fab:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+  .fab svg{width:29px;height:29px;fill:#fff;}
+  .fab.whatsapp{background:#25D366;}
+  .fab.instagram{
+    background:radial-gradient(circle at 28% 108%,
+      #FDD25C 0%, #F9814B 22%, #E34F6A 42%, #C82B96 58%, #7E38C5 76%, #4E5EE0 100%);
+  }
   @media (max-width:600px){
-    .whatsapp-fab{right:16px;bottom:16px;width:52px;height:52px;}
-    .whatsapp-fab svg{width:27px;height:27px;}
+    .social-fab{right:16px;bottom:16px;gap:10px;}
+    .fab{width:52px;height:52px;}
+    .fab svg{width:27px;height:27px;}
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -428,7 +478,7 @@
   <header class="topbar">
     <div class="wrap topbar-inner">
       <a href="#top" class="brandmark">
-        <img src="assets/logo.png" alt="POLE Studios">
+        <img src="logo.png" alt="POLE Studios">
         <span class="name">POLE STUDIOS</span>
       </a>
       <nav class="chips" id="chips" aria-label="Filtrar por categoría"></nav>
@@ -438,8 +488,8 @@
 
 <section class="hero" id="top">
   <div class="hero-media">
-    <video autoplay muted loop playsinline preload="auto" poster="assets/hero-poster.jpg" aria-label="Vídeo de la colección POLE Studios">
-      <source src="assets/hero.mp4" type="video/mp4">
+    <video poster="hero-poster.jpg" autoplay muted loop playsinline webkit-playsinline preload="auto" aria-label="Vídeo de la colección POLE Studios">
+      <source src="hero.mp4" type="video/mp4">
     </video>
   </div>
   <div class="hero-grain" aria-hidden="true"></div>
@@ -461,20 +511,25 @@
 
 <footer>
   <div class="wrap footer-inner">
-    <a href="#top" class="brandmark"><img src="assets/logo.png" alt="POLE Studios"><span class="name">POLE STUDIOS</span></a>
+    <a href="#top" class="brandmark"><img src="logo.png" alt="POLE Studios"><span class="name">POLE STUDIOS</span></a>
     <p class="note">Catálogo únicamente informativo — esta web no ofrece compra ni pago online.</p>
   </div>
 </footer>
 
-<a class="whatsapp-fab" id="whatsapp-fab" href="https://wa.me/34688825797?text=Hola!%20Estoy%20interesado%20en%20POLE%20Studios%2C%20%C2%BFme%20dais%20m%C3%A1s%20info%3F" target="_blank" rel="noopener noreferrer" aria-label="Escríbenos por WhatsApp">
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.05 21.785h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.999-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.002-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.002 5.45-4.437 9.884-9.886 9.884zm8.412-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.304-1.654a11.87 11.87 0 005.684 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.481-8.413z"/></svg>
-</a>
+<div class="social-fab">
+  <a class="fab instagram" id="instagram-fab" href="https://instagram.com/pole_studios" target="_blank" rel="noopener noreferrer" aria-label="Síguenos en Instagram, @pole_studios">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+  </a>
+  <a class="fab whatsapp" id="whatsapp-fab" href="https://wa.me/34688825797?text=Hola!%20Estoy%20interesado%20en%20POLE%20Studios%2C%20%C2%BFme%20dais%20m%C3%A1s%20info%3F" target="_blank" rel="noopener noreferrer" aria-label="Escríbenos por WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.05 21.785h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.999-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.002-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.002 5.45-4.437 9.884-9.886 9.884zm8.412-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.304-1.654a11.87 11.87 0 005.684 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.481-8.413z"/></svg>
+  </a>
+</div>
 
 <div class="promo" id="promo" role="dialog" aria-modal="true" aria-label="Are you ready">
   <div class="promo-backdrop" id="promo-backdrop"></div>
   <div class="promo-card">
     <button class="promo-close" id="promo-close" aria-label="Cerrar aviso">&times;</button>
-    <img src="assets/promo.jpg" alt="POLE Studios">
+    <img src="promo.jpg" alt="POLE Studios">
     <div class="promo-text">
       <h2>Are you ready?</h2>
       <p class="promo-sub">New clothes coming soon</p>
@@ -489,7 +544,9 @@
       <button class="lightbox-close" id="lb-close" aria-label="Cerrar">&times;</button>
       <p class="eyebrow" id="lb-cat"></p>
       <h3 id="lb-title"></h3>
+      <div id="lb-precio"></div>
       <p class="desc" id="lb-desc"></p>
+      <div id="lb-colores-wrap"></div>
       <p class="sizes-label">Tallas disponibles</p>
       <div class="sizes" id="lb-sizes"></div>
       <div class="stamp"><span class="ring">P</span><span class="txt">Solo catálogo — sin venta online</span></div>
@@ -507,27 +564,43 @@
     {
       id:1, name:"Sudadera POLE Studios Malva", cat:"sudaderas", catLabel:"Sudaderas",
       desc:"Sudadera oversize con capucha en malva lavado. Logo de estrella POLE Studios serigrafiado en el pecho posterior y sello circular POLE en el bajo. Algodón grueso perchado.",
-      sizes:["S","M","L","XL"], img:"assets/sudadera-malva.jpg", featured:true
+      precioAntes:"60 €", precio:"50 €",
+      sizes:["S","M","L","XL"], img:"sudadera-malva.jpg", featured:true
     },
     {
       id:2, name:"Sudadera POLE Studios Verde Salvia", cat:"sudaderas", catLabel:"Sudaderas",
       desc:"Sudadera oversize con capucha en verde salvia lavado, logo de estrella POLE Studios en amarillo a contraste. Algodón grueso perchado, corte relajado.",
-      sizes:["S","M","L","XL"], img:"assets/sudadera-verde.jpg", featured:true
+      precioAntes:"60 €", precio:"50 €",
+      sizes:["S","M","L","XL"], img:"sudadera-verde.jpg", featured:true
     },
     {
       id:3, name:"Sudadera POLE Studios Azul Piedra", cat:"sudaderas", catLabel:"Sudaderas",
       desc:"Sudadera oversize con capucha en azul piedra, logo de estrella POLE Studios a contraste sobre el pecho posterior. Algodón grueso perchado.",
-      sizes:["S","M","L","XL"], img:"assets/sudadera-azul.jpg", featured:false
+      precioAntes:"60 €", precio:"50 €",
+      sizes:["S","M","L","XL"], img:"sudadera-azul.jpg", featured:false
+    },
+    {
+      id:6, name:"Sudadera cuello redondo POLE Studios", cat:"sudaderas", catLabel:"Sudaderas",
+      desc:"Sudadera de cuello redondo con el gráfico POLE STUDIOS en la espalda: globo terráqueo con las coordenadas, y sello ovalado POLE en el pecho. Algodón grueso perchado, corte relajado. Disponible en crudo con estampado rosa y en negro con estampado verde.",
+      precioAntes:"60 €", precio:"50 €",
+      sizes:["S","M","L","XL"],
+      colores:[
+        { nombre:"Crudo", hex:"#EFE4D2", img:"sudadera-crudo.jpg" },
+        { nombre:"Negra", hex:"#1B1B1B", img:"sudadera-negra.jpg" }
+      ],
+      img:"sudadera-crudo.jpg", featured:true
     },
     {
       id:4, name:"Manga larga POLE Winter Blanca", cat:"manga-larga", catLabel:"Manga larga",
       desc:"Camiseta de manga larga en blanco roto con gráfico de evolución y logo POLE Winter en la espalda. Corte relajado, algodón de peso medio.",
-      sizes:["S","M","L","XL"], img:"assets/manga-larga-blanca.jpg", featured:false
+      precioAntes:"30 €", precio:"25 €",
+      sizes:["S","M","L","XL"], img:"manga-larga-blanca.jpg", featured:false
     },
     {
       id:5, name:"Manga larga POLE Winter Marino", cat:"manga-larga", catLabel:"Manga larga",
       desc:"Camiseta de manga larga en azul marino con gráfico de evolución y logo POLE Winter en la espalda. Corte relajado, algodón de peso medio.",
-      sizes:["S","M","L","XL"], img:"assets/manga-larga-marino.jpg", featured:false
+      precioAntes:"30 €", precio:"25 €",
+      sizes:["S","M","L","XL"], img:"manga-larga-marino.jpg", featured:false
     }
   ];
 
@@ -537,7 +610,7 @@
     {slug:"manga-larga", label:"Manga larga"}
   ];
 
-  var state = { filter:"todo", lightboxIndex:-1, lastFocused:null };
+  var state = { filter:"todo", lightboxIndex:-1, colorIndex:0, lastFocused:null };
 
   var chipsEl = document.getElementById("chips");
   var gridEl = document.getElementById("grid");
@@ -547,6 +620,36 @@
   function currentList(){
     if(state.filter === "todo") return PRODUCTS;
     return PRODUCTS.filter(function(p){ return p.cat === state.filter; });
+  }
+
+  // Convierte "60 €" en 60. Admite decimales con coma o con punto.
+  function aNumero(txt){
+    if(!txt) return null;
+    var n = parseFloat(String(txt).replace(/[^0-9,.]/g, "").replace(",", "."));
+    return isNaN(n) ? null : n;
+  }
+
+  // Precio: si hay rebaja, el anterior tachado, el nuevo destacado y el
+  // porcentaje de descuento calculado a partir de los dos.
+  function precioHtml(p){
+    if(!p.precio) return "";
+    if(!p.precioAntes){
+      return '<p class="precio"><span class="ahora">' + p.precio + '</span></p>';
+    }
+
+    var antes = aNumero(p.precioAntes), ahora = aNumero(p.precio);
+    var dto = (antes && ahora && antes > ahora)
+      ? Math.round((antes - ahora) / antes * 100)
+      : null;
+
+    var etiqueta = "Antes " + p.precioAntes + ", ahora " + p.precio +
+                   (dto ? ", " + dto + " por ciento de descuento" : "");
+
+    return '<p class="precio" aria-label="' + etiqueta + '">' +
+           '<span class="antes">' + p.precioAntes + '</span>' +
+           '<span class="ahora">' + p.precio + '</span>' +
+           (dto ? '<span class="dto">-' + dto + '%</span>' : '') +
+           '</p>';
   }
 
   function renderChips(){
@@ -593,9 +696,12 @@
 
       var body = document.createElement("div");
       body.className = "card-body";
+      var nColores = p.colores ? p.colores.length : 0;
       body.innerHTML =
         '<p class="eyebrow">' + p.catLabel + '</p>' +
         '<h3>' + p.name + '</h3>' +
+        precioHtml(p) +
+        (nColores > 1 ? '<p class="card-colores mono">' + nColores + ' colores</p>' : '') +
         '<p class="card-sizes mono">' + p.sizes.join(" · ") + '</p>';
 
       card.appendChild(media);
@@ -619,6 +725,8 @@
   var lbCat = document.getElementById("lb-cat");
   var lbTitle = document.getElementById("lb-title");
   var lbDesc = document.getElementById("lb-desc");
+  var lbPrecio = document.getElementById("lb-precio");
+  var lbColoresWrap = document.getElementById("lb-colores-wrap");
   var lbSizes = document.getElementById("lb-sizes");
   var lbClose = document.getElementById("lb-close");
   var lbPrev = document.getElementById("lb-prev");
@@ -628,6 +736,7 @@
     var idx = PRODUCTS.findIndex(function(p){ return p.id === id; });
     if(idx === -1) return;
     state.lightboxIndex = idx;
+    state.colorIndex = 0;
     state.lastFocused = trigger || document.activeElement;
     renderLightbox();
     lb.classList.add("is-open");
@@ -646,10 +755,14 @@
   function renderLightbox(){
     var p = PRODUCTS[state.lightboxIndex];
     if(!p) return;
-    lbImg.src = p.img; lbImg.alt = p.name;
+    var color = p.colores ? p.colores[state.colorIndex] : null;
+    lbImg.src = color ? color.img : p.img;
+    lbImg.alt = color ? p.name + " en " + color.nombre : p.name;
     lbCat.textContent = p.catLabel;
     lbTitle.textContent = p.name;
+    lbPrecio.innerHTML = precioHtml(p);
     lbDesc.textContent = p.desc;
+    renderColores(p);
     lbSizes.innerHTML = "";
     p.sizes.forEach(function(s){
       var el = document.createElement("span");
@@ -659,9 +772,37 @@
     });
   }
 
+  // Botones para cambiar de color dentro de una misma prenda
+  function renderColores(p){
+    if(!p.colores || p.colores.length < 2){
+      lbColoresWrap.innerHTML = "";
+      return;
+    }
+    lbColoresWrap.innerHTML =
+      '<p class="sizes-label">Colores</p>' +
+      '<div class="colores">' +
+      p.colores.map(function(c, i){
+        var activo = i === state.colorIndex;
+        return '<button type="button" class="color-op' + (activo ? ' activo' : '') + '"' +
+               ' data-color="' + i + '"' + (activo ? ' aria-current="true"' : '') +
+               ' aria-label="Ver en color ' + c.nombre + '">' +
+               '<span class="muestra" style="background:' + c.hex + '"></span>' +
+               '<span>' + c.nombre + '</span></button>';
+      }).join("") +
+      '</div>';
+
+    Array.prototype.forEach.call(lbColoresWrap.querySelectorAll(".color-op"), function(btn){
+      btn.addEventListener("click", function(){
+        state.colorIndex = Number(btn.getAttribute("data-color"));
+        renderLightbox();
+      });
+    });
+  }
+
   function step(delta){
     var n = PRODUCTS.length;
     state.lightboxIndex = (state.lightboxIndex + delta + n) % n;
+    state.colorIndex = 0;
     renderLightbox();
     lbClose.focus();
   }
@@ -716,14 +857,43 @@
     window.addEventListener("resize", update);
   })();
 
-  // ---------- Vídeo de fondo: pausado si el usuario prefiere menos movimiento ----------
+  // ---------- Vídeo de fondo ----------
+  // En iPhone la reproducción automática falla a menudo (Modo de Bajo Consumo,
+  // ajustes de Safari...). Si pasa, se reintenta en cuanto la persona toca la
+  // pantalla o hace scroll, para que no se quede en una foto fija.
   (function setupHeroVideo(){
     var v = document.querySelector(".hero-media video");
     if (!v) return;
+
     if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       v.removeAttribute("autoplay");
       v.pause();
+      return;
     }
+
+    v.muted = true;          // iOS exige la propiedad, no basta el atributo
+    v.playsInline = true;
+
+    function intentar(){
+      var p = v.play();
+      if (p && p.catch) p.catch(function(){ /* seguirá pausado hasta que haya interacción */ });
+    }
+
+    intentar();
+
+    var eventos = ["touchstart", "click", "scroll"];
+    function alInteractuar(){
+      if (v.paused) intentar();
+      if (!v.paused) quitar();
+    }
+    function quitar(){
+      eventos.forEach(function(e){
+        window.removeEventListener(e, alInteractuar);
+      });
+    }
+    eventos.forEach(function(e){
+      window.addEventListener(e, alInteractuar, { passive: true });
+    });
   })();
 
   // ---------- Popup "Are you ready?" ----------

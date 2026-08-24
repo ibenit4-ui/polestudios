@@ -1,0 +1,7 @@
+.DS_Store
+.vercel
+node_modules/
+*.log
+
+# Proyecto antiguo del panel de administración: no va a la web
+_proyecto-antiguo/
