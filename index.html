@@ -172,6 +172,9 @@
     box-shadow:var(--shadow);
     display:flex;flex-direction:column;gap:2px;
   }
+  /* El display:flex de arriba gana al atributo hidden, así que hay que
+     ocultarlo de forma explícita o el desplegable saldría siempre abierto. */
+  .lang-menu[hidden]{display:none;}
   .lang-menu button{
     display:flex;align-items:center;justify-content:space-between;gap:14px;
     width:100%;padding:9px 11px;border:none;border-radius:5px;
