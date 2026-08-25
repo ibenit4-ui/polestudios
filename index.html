@@ -29,6 +29,7 @@
     --accent-ink:#FBF3F0;
     --accent-2:#5F7259;
     --line:#CDC3AE;
+    --marca-pie:#8A7F6B;
     --shadow:0 18px 40px -20px rgba(27,24,18,.35);
   }
   @media (prefers-color-scheme: dark){
@@ -42,6 +43,7 @@
       --accent-ink:#241411;
       --accent-2:#9BB092;
       --line:#3A3327;
+      --marca-pie:#9C8F7A;
       --shadow:0 18px 44px -18px rgba(0,0,0,.6);
     }
   }
@@ -55,6 +57,7 @@
     --accent-ink:#241411;
     --accent-2:#9BB092;
     --line:#3A3327;
+    --marca-pie:#9C8F7A;
     --shadow:0 18px 44px -18px rgba(0,0,0,.6);
   }
 
@@ -327,8 +330,19 @@
   .footer-inner{
     display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
   }
-  footer .brandmark .name{font-size:1.1rem;}
+  /* La marca del pie va sobre fondo claro: hay que deshacer el blanco
+     que hereda de la cabecera, que flota sobre el vídeo oscuro. */
+  footer .brandmark .name{font-size:1.1rem;color:var(--marca-pie);}
+  footer .brandmark img{filter:none;opacity:.42;}
   footer .note{color:var(--muted);font-size:.86rem;max-width:38ch;text-align:right;}
+  /* Los botones flotantes de Instagram y WhatsApp quedan encima de la
+     esquina inferior derecha: hay que dejarles sitio o tapan este texto. */
+  @media (min-width:601px){
+    footer .note{padding-right:88px;}
+  }
+  @media (max-width:600px){
+    footer{padding-bottom:130px;}
+  }
 
   /* ---------------- Lightbox ---------------- */
   .lightbox{
