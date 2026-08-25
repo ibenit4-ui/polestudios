@@ -156,6 +156,38 @@
     background:#F4EFE6;color:var(--ink);border-color:#F4EFE6;
   }
 
+  /* ---------------- Selector de idioma y moneda ---------------- */
+  .topbar-derecha{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .lang{position:relative;}
+  .lang-btn{display:flex;align-items:center;gap:6px;}
+  .lang-btn::after{
+    content:"";width:0;height:0;
+    border-left:3.5px solid transparent;border-right:3.5px solid transparent;
+    border-top:4px solid currentColor;opacity:.8;
+  }
+  .lang-menu{
+    position:absolute;top:calc(100% + 8px);right:0;z-index:5;
+    min-width:170px;padding:6px;
+    background:var(--bg);border:1px solid var(--line);border-radius:8px;
+    box-shadow:var(--shadow);
+    display:flex;flex-direction:column;gap:2px;
+  }
+  .lang-menu button{
+    display:flex;align-items:center;justify-content:space-between;gap:14px;
+    width:100%;padding:9px 11px;border:none;border-radius:5px;
+    background:transparent;color:var(--ink);cursor:pointer;text-align:left;
+    font-family:"IBM Plex Mono",monospace;font-size:.76rem;
+  }
+  .lang-menu button:hover{background:var(--surface);}
+  .lang-menu button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
+  .lang-menu button[aria-current="true"]{background:var(--surface);color:var(--accent);}
+  .lang-menu .div{color:var(--muted);}
+  /* En móvil la cabecera se reparte en dos filas y el botón queda a la
+     izquierda: si el menú se anclara a la derecha, se saldría de pantalla. */
+  @media (max-width:600px){
+    .lang-menu{right:auto;left:0;}
+  }
+
   /* Estado sólido: una vez el hero ha quedado atrás al hacer scroll */
   .site-chrome.is-solid .topbar{
     background:color-mix(in srgb, var(--bg) 92%, transparent);
@@ -475,8 +507,8 @@
 <div class="site-chrome" id="site-chrome">
   <div class="banner" aria-hidden="true">
     <div class="banner-inner" id="banner-inner">
-      <div class="banner-track" id="banner-track-a"><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span></div>
-      <div class="banner-track" id="banner-track-b"><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span><span>Pedidos DM</span><span>New clothes soon</span></div>
+      <div class="banner-track" id="banner-track-a"></div>
+      <div class="banner-track" id="banner-track-b"></div>
     </div>
   </div>
 
@@ -486,7 +518,13 @@
         <img src="logo.png" alt="POLE Studios">
         <span class="name">POLE STUDIOS</span>
       </a>
-      <nav class="chips" id="chips" aria-label="Filtrar por categoría"></nav>
+      <div class="topbar-derecha">
+        <nav class="chips" id="chips"></nav>
+        <div class="lang" id="lang">
+          <button type="button" class="chip lang-btn" id="lang-btn" aria-haspopup="true" aria-expanded="false"></button>
+          <div class="lang-menu" id="lang-menu" hidden></div>
+        </div>
+      </div>
     </div>
   </header>
 </div>
@@ -506,18 +544,18 @@
 <main class="wrap catalog">
   <div class="catalog-head">
     <div>
-      <h2 class="display">La colección</h2>
+      <h2 class="display" id="t-coleccion"></h2>
       <p class="count" id="count"></p>
     </div>
   </div>
   <div class="grid" id="grid"></div>
-  <p class="empty" id="empty" hidden>No hay prendas en esta categoría todavía.</p>
+  <p class="empty" id="empty" hidden></p>
 </main>
 
 <footer>
   <div class="wrap footer-inner">
     <a href="#top" class="brandmark"><img src="logo.png" alt="POLE Studios"><span class="name">POLE STUDIOS</span></a>
-    <p class="note">Catálogo únicamente informativo — esta web no ofrece compra ni pago online.</p>
+    <p class="note" id="t-pie"></p>
   </div>
 </footer>
 
@@ -546,18 +584,18 @@
   <div class="lightbox-panel">
     <div class="lightbox-media"><img id="lb-img" src="" alt=""></div>
     <div class="lightbox-info">
-      <button class="lightbox-close" id="lb-close" aria-label="Cerrar">&times;</button>
+      <button class="lightbox-close" id="lb-close">&times;</button>
       <p class="eyebrow" id="lb-cat"></p>
       <h3 id="lb-title"></h3>
       <div id="lb-precio"></div>
       <p class="desc" id="lb-desc"></p>
       <div id="lb-colores-wrap"></div>
-      <p class="sizes-label">Tallas disponibles</p>
+      <p class="sizes-label" id="t-tallas"></p>
       <div class="sizes" id="lb-sizes"></div>
-      <div class="stamp"><span class="ring">P</span><span class="txt">Solo catálogo — sin venta online</span></div>
+      <div class="stamp"><span class="ring">P</span><span class="txt" id="t-sello"></span></div>
       <div class="lb-nav">
-        <button id="lb-prev">&larr; Anterior</button>
-        <button id="lb-next">Siguiente &rarr;</button>
+        <button id="lb-prev"></button>
+        <button id="lb-next"></button>
       </div>
     </div>
   </div>
@@ -565,57 +603,186 @@
 
 <script>
 (function(){
+
+  // =====================================================================
+  //  TIPOS DE CAMBIO
+  //  El precio base de cada prenda se guarda SIEMPRE en euros. Estos son
+  //  los factores para convertirlo. Si cambias un precio, las otras dos
+  //  monedas se recalculan solas; solo hay que tocar aquí si quieres
+  //  actualizar la cotización.                    (actualizado 24/08/2026)
+  // =====================================================================
+  var TASAS = {
+    EUR: 1,
+    USD: 1.166,
+    GBP: 0.8555
+  };
+
+  var LOCALES = {
+    "es-ES": { pais:"España",   idioma:"es", lang:"es-ES", moneda:"EUR", simbolo:"€", simboloAntes:false, corto:"ES" },
+    "en-US": { pais:"USA",      idioma:"en", lang:"en-US", moneda:"USD", simbolo:"$",      simboloAntes:true,  corto:"EN",
+               textos:{ colores:"Colors", nColores:"colors",
+                        sello:"Catalog only — no online sales",
+                        pie:"Catalog for reference only — this site does not offer online purchase or payment." } },
+    "en-GB": { pais:"UK",       idioma:"en", lang:"en-GB", moneda:"GBP", simbolo:"£", simboloAntes:true,  corto:"EN" }
+  };
+
+  var ORDEN_LOCALES = ["es-ES", "en-US", "en-GB"];
+
+  var T = {
+    es: {
+      todo:"Todo", sudaderas:"Sudaderas", mangaLarga:"Manga larga",
+      coleccion:"La colección",
+      prenda:"prenda", prendas:"prendas",
+      destacado:"Destacado",
+      tallas:"Tallas disponibles",
+      colores:"Colores", nColores:"colores",
+      anterior:"← Anterior", siguiente:"Siguiente →",
+      sello:"Solo catálogo — sin venta online",
+      vacio:"No hay prendas en esta categoría todavía.",
+      pie:"Catálogo únicamente informativo — esta web no ofrece compra ni pago online.",
+      cerrar:"Cerrar", cerrarAviso:"Cerrar aviso",
+      filtrar:"Filtrar por categoría", idiomaMoneda:"Idioma y moneda",
+      ver:"Ver", verEnColor:"Ver en color",
+      antes:"Antes", ahora:"ahora", descuento:"de descuento",
+      banner:["Pedidos DM","New clothes soon"],
+      waTexto:"Hola! Estoy interesado en POLE Studios, ¿me dais más info?",
+      waAria:"Escríbenos por WhatsApp",
+      igAria:"Síguenos en Instagram, @pole_studios",
+      videoAria:"Vídeo de la colección POLE Studios"
+    },
+    en: {
+      todo:"All", sudaderas:"Sweatshirts", mangaLarga:"Long sleeve",
+      coleccion:"The collection",
+      prenda:"item", prendas:"items",
+      destacado:"Featured",
+      tallas:"Available sizes",
+      colores:"Colours", nColores:"colours",
+      anterior:"← Previous", siguiente:"Next →",
+      sello:"Catalogue only — no online sales",
+      vacio:"No items in this category yet.",
+      pie:"Catalogue for reference only — this site does not offer online purchase or payment.",
+      cerrar:"Close", cerrarAviso:"Close notice",
+      filtrar:"Filter by category", idiomaMoneda:"Language and currency",
+      ver:"View", verEnColor:"View in colour",
+      antes:"Was", ahora:"now", descuento:"off",
+      banner:["Order by DM","New clothes soon"],
+      waTexto:"Hi! I’m interested in POLE Studios, could you send me more info?",
+      waAria:"Message us on WhatsApp",
+      igAria:"Follow us on Instagram, @pole_studios",
+      videoAria:"POLE Studios collection video"
+    }
+  };
+
+  // =====================================================================
+  //  PRENDAS
+  //  precioAntes y precio van en EUROS y como número, sin símbolo.
+  // =====================================================================
   var PRODUCTS = [
     {
-      id:1, name:"Sudadera POLE Studios Malva", cat:"sudaderas", catLabel:"Sudaderas",
-      desc:"Sudadera oversize con capucha en malva lavado. Logo de estrella POLE Studios serigrafiado en el pecho posterior y sello circular POLE en el bajo. Algodón grueso perchado.",
-      precioAntes:"60 €", precio:"50 €",
+      id:1, cat:"sudaderas",
+      nombre:{ es:"Sudadera POLE Studios Malva", en:"POLE Studios Hoodie — Mauve" },
+      desc:{
+        es:"Sudadera oversize con capucha en malva lavado. Logo de estrella POLE Studios serigrafiado en el pecho posterior y sello circular POLE en el bajo. Algodón grueso perchado.",
+        en:"Oversized hoodie in washed mauve. POLE Studios star logo screen-printed across the back and a circular POLE stamp at the hem. Heavyweight brushed cotton."
+      },
+      precioAntes:60, precio:50,
       sizes:["S","M","L","XL"], img:"sudadera-malva.jpg", featured:true
     },
     {
-      id:2, name:"Sudadera POLE Studios Verde Salvia", cat:"sudaderas", catLabel:"Sudaderas",
-      desc:"Sudadera oversize con capucha en verde salvia lavado, logo de estrella POLE Studios en amarillo a contraste. Algodón grueso perchado, corte relajado.",
-      precioAntes:"60 €", precio:"50 €",
+      id:2, cat:"sudaderas",
+      nombre:{ es:"Sudadera POLE Studios Verde Salvia", en:"POLE Studios Hoodie — Sage Green" },
+      desc:{
+        es:"Sudadera oversize con capucha en verde salvia lavado, logo de estrella POLE Studios en amarillo a contraste. Algodón grueso perchado, corte relajado.",
+        en:"Oversized hoodie in washed sage green with the POLE Studios star logo in contrasting yellow. Heavyweight brushed cotton, relaxed fit."
+      },
+      precioAntes:60, precio:50,
       sizes:["S","M","L","XL"], img:"sudadera-verde.jpg", featured:true
     },
     {
-      id:3, name:"Sudadera POLE Studios Azul Piedra", cat:"sudaderas", catLabel:"Sudaderas",
-      desc:"Sudadera oversize con capucha en azul piedra, logo de estrella POLE Studios a contraste sobre el pecho posterior. Algodón grueso perchado.",
-      precioAntes:"60 €", precio:"50 €",
+      id:3, cat:"sudaderas",
+      nombre:{ es:"Sudadera POLE Studios Azul Piedra", en:"POLE Studios Hoodie — Stone Blue" },
+      desc:{
+        es:"Sudadera oversize con capucha en azul piedra, logo de estrella POLE Studios a contraste sobre el pecho posterior. Algodón grueso perchado.",
+        en:"Oversized hoodie in stone blue with the POLE Studios star logo across the back. Heavyweight brushed cotton."
+      },
+      precioAntes:60, precio:50,
       sizes:["S","M","L","XL"], img:"sudadera-azul.jpg", featured:false
     },
     {
-      id:6, name:"Sudadera cuello redondo POLE Studios", cat:"sudaderas", catLabel:"Sudaderas",
-      desc:"Sudadera de cuello redondo con el gráfico POLE STUDIOS en la espalda: globo terráqueo con las coordenadas, y sello ovalado POLE en el pecho. Algodón grueso perchado, corte relajado. Disponible en crudo con estampado rosa y en negro con estampado verde.",
-      precioAntes:"60 €", precio:"50 €",
+      id:6, cat:"sudaderas",
+      nombre:{ es:"Sudadera cuello redondo POLE Studios", en:"POLE Studios Crewneck" },
+      desc:{
+        es:"Sudadera de cuello redondo con el gráfico POLE STUDIOS en la espalda: globo terráqueo con las coordenadas, y sello ovalado POLE en el pecho. Algodón grueso perchado, corte relajado. Disponible en crudo con estampado rosa y en negro con estampado verde.",
+        en:"Crewneck sweatshirt with the POLE STUDIOS graphic on the back: a globe with its coordinates, plus the oval POLE stamp on the chest. Heavyweight brushed cotton, relaxed fit. Available in off-white with a pink print and black with a green print."
+      },
+      precioAntes:60, precio:50,
       sizes:["S","M","L","XL"],
       colores:[
-        { nombre:"Crudo", hex:"#EFE4D2", img:"sudadera-crudo.jpg" },
-        { nombre:"Negra", hex:"#1B1B1B", img:"sudadera-negra.jpg" }
+        { nombre:{ es:"Crudo", en:"Off-white" }, hex:"#EFE4D2", img:"sudadera-crudo.jpg" },
+        { nombre:{ es:"Negra", en:"Black" },     hex:"#1B1B1B", img:"sudadera-negra.jpg" }
       ],
       img:"sudadera-crudo.jpg", featured:true
     },
     {
-      id:4, name:"Manga larga POLE Winter Blanca", cat:"manga-larga", catLabel:"Manga larga",
-      desc:"Camiseta de manga larga en blanco roto con gráfico de evolución y logo POLE Winter en la espalda. Corte relajado, algodón de peso medio.",
-      precioAntes:"30 €", precio:"25 €",
+      id:4, cat:"manga-larga",
+      nombre:{ es:"Manga larga POLE Winter Blanca", en:"POLE Winter Long Sleeve — White" },
+      desc:{
+        es:"Camiseta de manga larga en blanco roto con gráfico de evolución y logo POLE Winter en la espalda. Corte relajado, algodón de peso medio.",
+        en:"Long-sleeve tee in off-white with the evolution graphic and POLE Winter logo on the back. Relaxed fit, midweight cotton."
+      },
+      precioAntes:30, precio:25,
       sizes:["S","M","L","XL"], img:"manga-larga-blanca.jpg", featured:false
     },
     {
-      id:5, name:"Manga larga POLE Winter Marino", cat:"manga-larga", catLabel:"Manga larga",
-      desc:"Camiseta de manga larga en azul marino con gráfico de evolución y logo POLE Winter en la espalda. Corte relajado, algodón de peso medio.",
-      precioAntes:"30 €", precio:"25 €",
+      id:5, cat:"manga-larga",
+      nombre:{ es:"Manga larga POLE Winter Marino", en:"POLE Winter Long Sleeve — Navy" },
+      desc:{
+        es:"Camiseta de manga larga en azul marino con gráfico de evolución y logo POLE Winter en la espalda. Corte relajado, algodón de peso medio.",
+        en:"Long-sleeve tee in navy with the evolution graphic and POLE Winter logo on the back. Relaxed fit, midweight cotton."
+      },
+      precioAntes:30, precio:25,
       sizes:["S","M","L","XL"], img:"manga-larga-marino.jpg", featured:false
     }
   ];
 
-  var CATS = [
-    {slug:"todo", label:"Todo"},
-    {slug:"sudaderas", label:"Sudaderas"},
-    {slug:"manga-larga", label:"Manga larga"}
-  ];
+  var CATS = ["todo", "sudaderas", "manga-larga"];
 
-  var state = { filter:"todo", lightboxIndex:-1, colorIndex:0, lastFocused:null };
+  var state = { locale:"es-ES", filter:"todo", lightboxIndex:-1, colorIndex:0, lastFocused:null };
+
+  // ---------- Utilidades de idioma y moneda ----------
+  function loc(){ return LOCALES[state.locale]; }
+
+  function t(clave){
+    var L = loc();
+    if(L.textos && L.textos[clave] !== undefined) return L.textos[clave];
+    return T[L.idioma][clave];
+  }
+
+  function txt(campo){
+    // Devuelve el texto de un campo {es:..., en:...}
+    if(!campo) return "";
+    if(typeof campo === "string") return campo;
+    return campo[loc().idioma] || campo.es || "";
+  }
+
+  function etiquetaCat(cat){
+    if(cat === "todo") return t("todo");
+    if(cat === "sudaderas") return t("sudaderas");
+    return t("mangaLarga");
+  }
+
+  // Convierte un precio en euros a la moneda activa
+  function precioLocal(eur){
+    var L = loc();
+    var v = Math.round(eur * TASAS[L.moneda]);
+    return L.simboloAntes ? L.simbolo + v : v + " " + L.simbolo;
+  }
+
+  function esc(s){
+    return String(s).replace(/[&<>"]/g, function(c){
+      return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c];
+    });
+  }
 
   var chipsEl = document.getElementById("chips");
   var gridEl = document.getElementById("grid");
@@ -627,47 +794,41 @@
     return PRODUCTS.filter(function(p){ return p.cat === state.filter; });
   }
 
-  // Convierte "60 €" en 60. Admite decimales con coma o con punto.
-  function aNumero(txt){
-    if(!txt) return null;
-    var n = parseFloat(String(txt).replace(/[^0-9,.]/g, "").replace(",", "."));
-    return isNaN(n) ? null : n;
-  }
-
-  // Precio: si hay rebaja, el anterior tachado, el nuevo destacado y el
-  // porcentaje de descuento calculado a partir de los dos.
+  // ---------- Precio con rebaja y porcentaje ----------
   function precioHtml(p){
-    if(!p.precio) return "";
+    if(p.precio === undefined || p.precio === null) return "";
+    var ahora = precioLocal(p.precio);
     if(!p.precioAntes){
-      return '<p class="precio"><span class="ahora">' + p.precio + '</span></p>';
+      return '<p class="precio"><span class="ahora">' + ahora + '</span></p>';
     }
-
-    var antes = aNumero(p.precioAntes), ahora = aNumero(p.precio);
-    var dto = (antes && ahora && antes > ahora)
-      ? Math.round((antes - ahora) / antes * 100)
+    var antes = precioLocal(p.precioAntes);
+    // El descuento se calcula sobre el precio base en euros, para que sea
+    // el mismo en las tres monedas y no baile por el redondeo.
+    var dto = p.precioAntes > p.precio
+      ? Math.round((p.precioAntes - p.precio) / p.precioAntes * 100)
       : null;
-
-    var etiqueta = "Antes " + p.precioAntes + ", ahora " + p.precio +
-                   (dto ? ", " + dto + " por ciento de descuento" : "");
-
-    return '<p class="precio" aria-label="' + etiqueta + '">' +
-           '<span class="antes">' + p.precioAntes + '</span>' +
-           '<span class="ahora">' + p.precio + '</span>' +
+    var etiqueta = t("antes") + " " + antes + ", " + t("ahora") + " " + ahora +
+                   (dto ? " — " + dto + "% " + t("descuento") : "");
+    return '<p class="precio" aria-label="' + esc(etiqueta) + '">' +
+           '<span class="antes">' + antes + '</span>' +
+           '<span class="ahora">' + ahora + '</span>' +
            (dto ? '<span class="dto">-' + dto + '%</span>' : '') +
            '</p>';
   }
 
+  // ---------- Filtros ----------
   function renderChips(){
+    chipsEl.setAttribute("aria-label", t("filtrar"));
     chipsEl.innerHTML = "";
     CATS.forEach(function(c){
       var b = document.createElement("button");
       b.className = "chip";
       b.type = "button";
-      b.textContent = c.label;
-      b.setAttribute("aria-pressed", String(state.filter === c.slug));
+      b.textContent = etiquetaCat(c);
+      b.setAttribute("aria-pressed", String(state.filter === c));
       b.addEventListener("click", function(){
-        if(state.filter === c.slug) return;
-        state.filter = c.slug;
+        if(state.filter === c) return;
+        state.filter = c;
         renderChips();
         transitionGrid();
       });
@@ -675,38 +836,42 @@
     });
   }
 
+  // ---------- Cuadrícula ----------
   function renderGrid(){
     var list = currentList();
-    countEl.textContent = list.length + (list.length === 1 ? " prenda" : " prendas");
+    countEl.textContent = list.length + " " + (list.length === 1 ? t("prenda") : t("prendas"));
     gridEl.innerHTML = "";
+    emptyEl.textContent = t("vacio");
     emptyEl.hidden = list.length > 0;
+
     list.forEach(function(p, i){
+      var nombre = txt(p.nombre);
       var card = document.createElement("button");
       card.type = "button";
       card.className = "card";
       card.style.animationDelay = (i * 45) + "ms";
-      card.setAttribute("aria-label", "Ver " + p.name);
+      card.setAttribute("aria-label", t("ver") + " " + nombre);
 
       var media = document.createElement("div");
       media.className = "card-media";
       var img = document.createElement("img");
-      img.src = p.img; img.alt = p.name; img.loading = "lazy";
+      img.src = p.img; img.alt = nombre; img.loading = "lazy";
       media.appendChild(img);
       if(p.featured){
         var badge = document.createElement("span");
         badge.className = "card-badge";
-        badge.textContent = "Destacado";
+        badge.textContent = t("destacado");
         media.appendChild(badge);
       }
 
+      var nColores = p.colores ? p.colores.length : 0;
       var body = document.createElement("div");
       body.className = "card-body";
-      var nColores = p.colores ? p.colores.length : 0;
       body.innerHTML =
-        '<p class="eyebrow">' + p.catLabel + '</p>' +
-        '<h3>' + p.name + '</h3>' +
+        '<p class="eyebrow">' + esc(etiquetaCat(p.cat)) + '</p>' +
+        '<h3>' + esc(nombre) + '</h3>' +
         precioHtml(p) +
-        (nColores > 1 ? '<p class="card-colores mono">' + nColores + ' colores</p>' : '') +
+        (nColores > 1 ? '<p class="card-colores mono">' + nColores + " " + esc(t("nColores")) + '</p>' : '') +
         '<p class="card-sizes mono">' + p.sizes.join(" · ") + '</p>';
 
       card.appendChild(media);
@@ -724,7 +889,7 @@
     }, 180);
   }
 
-  // ---------- Lightbox ----------
+  // ---------- Ficha de prenda ----------
   var lb = document.getElementById("lightbox");
   var lbImg = document.getElementById("lb-img");
   var lbCat = document.getElementById("lb-cat");
@@ -760,14 +925,17 @@
   function renderLightbox(){
     var p = PRODUCTS[state.lightboxIndex];
     if(!p) return;
+    var nombre = txt(p.nombre);
     var color = p.colores ? p.colores[state.colorIndex] : null;
+
     lbImg.src = color ? color.img : p.img;
-    lbImg.alt = color ? p.name + " en " + color.nombre : p.name;
-    lbCat.textContent = p.catLabel;
-    lbTitle.textContent = p.name;
+    lbImg.alt = color ? nombre + " — " + txt(color.nombre) : nombre;
+    lbCat.textContent = etiquetaCat(p.cat);
+    lbTitle.textContent = nombre;
     lbPrecio.innerHTML = precioHtml(p);
-    lbDesc.textContent = p.desc;
+    lbDesc.textContent = txt(p.desc);
     renderColores(p);
+
     lbSizes.innerHTML = "";
     p.sizes.forEach(function(s){
       var el = document.createElement("span");
@@ -784,15 +952,16 @@
       return;
     }
     lbColoresWrap.innerHTML =
-      '<p class="sizes-label">Colores</p>' +
+      '<p class="sizes-label">' + esc(t("colores")) + '</p>' +
       '<div class="colores">' +
       p.colores.map(function(c, i){
         var activo = i === state.colorIndex;
-        return '<button type="button" class="color-op' + (activo ? ' activo' : '') + '"' +
+        var nom = txt(c.nombre);
+        return '<button type="button" class="color-op' + (activo ? " activo" : "") + '"' +
                ' data-color="' + i + '"' + (activo ? ' aria-current="true"' : '') +
-               ' aria-label="Ver en color ' + c.nombre + '">' +
-               '<span class="muestra" style="background:' + c.hex + '"></span>' +
-               '<span>' + c.nombre + '</span></button>';
+               ' aria-label="' + esc(t("verEnColor") + " " + nom) + '">' +
+               '<span class="muestra" style="background:' + esc(c.hex) + '"></span>' +
+               '<span>' + esc(nom) + '</span></button>';
       }).join("") +
       '</div>';
 
@@ -823,112 +992,207 @@
   lbNext.addEventListener("click", function(){ step(1); });
   lb.addEventListener("click", function(e){ if(e.target === lb) closeLightbox(); });
 
-  renderChips();
-  renderGrid();
+  // ---------- Cinta deslizante ----------
+  function menosMovimiento(){
+    return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
 
-  // ---------- Cinta deslizante: velocidad constante, sin huecos ----------
-  (function setupBanner(){
+  function construirBanner(){
     var inner = document.getElementById("banner-inner");
     var a = document.getElementById("banner-track-a");
     var b = document.getElementById("banner-track-b");
-    if (!inner || !a || !b) return;
-    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    var baseHtml = a.innerHTML;
-    function ensureWidth(track){
-      var guard = 0;
-      while (track.scrollWidth < window.innerWidth + 400 && guard < 40) {
-        track.insertAdjacentHTML("beforeend", baseHtml);
-        guard++;
-      }
-    }
-    ensureWidth(a);
-    b.innerHTML = a.innerHTML;
-    var speed = 55; // px por segundo
-    var duration = Math.max(22, a.scrollWidth / speed);
-    inner.style.setProperty("--banner-duration", duration + "s");
-  })();
+    if(!inner || !a || !b) return;
 
-  // ---------- Cabecera: sólida una vez el hero queda atrás al hacer scroll ----------
+    var base = T[loc().idioma].banner.map(function(x){
+      return "<span>" + esc(x) + "</span>";
+    }).join("");
+
+    a.innerHTML = base;
+    var guarda = 0;
+    while(a.scrollWidth < window.innerWidth + 400 && guarda < 60){
+      a.insertAdjacentHTML("beforeend", base);
+      guarda++;
+    }
+    b.innerHTML = a.innerHTML;
+
+    if(!menosMovimiento()){
+      var duracion = Math.max(22, a.scrollWidth / 55); // 55 píxeles por segundo
+      inner.style.setProperty("--banner-duration", duracion + "s");
+    }
+  }
+
+  // ---------- Selector de idioma y moneda ----------
+  var langBtn = document.getElementById("lang-btn");
+  var langMenu = document.getElementById("lang-menu");
+
+  function pintarMenuIdiomas(){
+    langMenu.innerHTML = "";
+    ORDEN_LOCALES.forEach(function(cod){
+      var L = LOCALES[cod];
+      var b = document.createElement("button");
+      b.type = "button";
+      b.innerHTML = '<span>' + esc(L.pais) + '</span><span class="div">' +
+                    esc(L.simbolo + " " + L.moneda) + '</span>';
+      if(cod === state.locale) b.setAttribute("aria-current", "true");
+      b.addEventListener("click", function(){
+        cambiarLocale(cod);
+        abrirMenu(false);
+        langBtn.focus();
+      });
+      langMenu.appendChild(b);
+    });
+  }
+
+  function abrirMenu(abrir){
+    langMenu.hidden = !abrir;
+    langBtn.setAttribute("aria-expanded", String(abrir));
+  }
+
+  langBtn.addEventListener("click", function(e){
+    e.stopPropagation();
+    abrirMenu(langMenu.hidden);
+  });
+  document.addEventListener("click", function(e){
+    if(!langMenu.hidden && !document.getElementById("lang").contains(e.target)) abrirMenu(false);
+  });
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Escape" && !langMenu.hidden) abrirMenu(false);
+  });
+
+  function cambiarLocale(cod){
+    if(!LOCALES[cod]) return;
+    state.locale = cod;
+    try { localStorage.setItem("pole-locale", cod); } catch(e){}
+    aplicarLocale();
+  }
+
+  function localeInicial(){
+    try {
+      var guardado = localStorage.getItem("pole-locale");
+      if(guardado && LOCALES[guardado]) return guardado;
+    } catch(e){}
+    var nav = (navigator.language || "es").toLowerCase();
+    if(nav.indexOf("en-gb") === 0) return "en-GB";
+    if(nav.indexOf("en") === 0) return "en-US";
+    return "es-ES";
+  }
+
+  // Aplica idioma y moneda a toda la página
+  function aplicarLocale(){
+    var L = loc();
+    document.documentElement.lang = L.lang;
+
+    langBtn.textContent = L.corto + " " + L.simbolo;
+    langBtn.setAttribute("aria-label", t("idiomaMoneda") + ": " + L.pais + ", " + L.moneda);
+    pintarMenuIdiomas();
+
+    document.getElementById("t-coleccion").textContent = t("coleccion");
+    document.getElementById("t-pie").textContent = t("pie");
+    document.getElementById("t-tallas").textContent = t("tallas");
+    document.getElementById("t-sello").textContent = t("sello");
+    lbPrev.textContent = t("anterior");
+    lbNext.textContent = t("siguiente");
+    lbClose.setAttribute("aria-label", t("cerrar"));
+
+    var promoClose = document.getElementById("promo-close");
+    if(promoClose) promoClose.setAttribute("aria-label", t("cerrarAviso"));
+
+    var video = document.querySelector(".hero-media video");
+    if(video) video.setAttribute("aria-label", t("videoAria"));
+
+    var ig = document.getElementById("instagram-fab");
+    if(ig) ig.setAttribute("aria-label", t("igAria"));
+
+    var wa = document.getElementById("whatsapp-fab");
+    if(wa){
+      wa.setAttribute("aria-label", t("waAria"));
+      wa.href = "https://wa.me/34688825797?text=" + encodeURIComponent(t("waTexto"));
+    }
+
+    renderChips();
+    renderGrid();
+    construirBanner();
+    if(lb.classList.contains("is-open")) renderLightbox();
+  }
+
+  state.locale = localeInicial();
+  aplicarLocale();
+
+  window.addEventListener("resize", construirBanner);
+
+  // ---------- Cabecera: sólida una vez el hero queda atrás ----------
   (function setupChrome(){
     var chrome = document.getElementById("site-chrome");
     var hero = document.getElementById("top");
-    if (!chrome || !hero) return;
+    if(!chrome || !hero) return;
     function update(){
-      var threshold = hero.offsetHeight - chrome.offsetHeight;
-      chrome.classList.toggle("is-solid", window.scrollY > Math.max(threshold, 40));
+      var umbral = hero.offsetHeight - chrome.offsetHeight;
+      chrome.classList.toggle("is-solid", window.scrollY > Math.max(umbral, 40));
     }
     update();
-    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("scroll", update, { passive:true });
     window.addEventListener("resize", update);
   })();
 
   // ---------- Vídeo de fondo ----------
-  // En iPhone la reproducción automática falla a menudo (Modo de Bajo Consumo,
-  // ajustes de Safari...). Si pasa, se reintenta en cuanto la persona toca la
-  // pantalla o hace scroll, para que no se quede en una foto fija.
+  // En iPhone la reproducción automática falla a menudo (Modo de Bajo
+  // Consumo, ajustes de Safari...). Si pasa, se reintenta en cuanto la
+  // persona toca la pantalla, para que no se quede en una foto fija.
   (function setupHeroVideo(){
     var v = document.querySelector(".hero-media video");
-    if (!v) return;
+    if(!v) return;
 
-    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if(menosMovimiento()){
       v.removeAttribute("autoplay");
       v.pause();
       return;
     }
 
-    v.muted = true;          // iOS exige la propiedad, no basta el atributo
+    v.muted = true;
     v.playsInline = true;
 
     function intentar(){
-      var p = v.play();
-      if (p && p.catch) p.catch(function(){ /* seguirá pausado hasta que haya interacción */ });
+      var pr = v.play();
+      if(pr && pr.catch) pr.catch(function(){});
     }
-
     intentar();
 
     var eventos = ["touchstart", "click", "scroll"];
     function alInteractuar(){
-      if (v.paused) intentar();
-      if (!v.paused) quitar();
+      if(v.paused) intentar();
+      if(!v.paused) eventos.forEach(function(e){ window.removeEventListener(e, alInteractuar); });
     }
-    function quitar(){
-      eventos.forEach(function(e){
-        window.removeEventListener(e, alInteractuar);
-      });
-    }
-    eventos.forEach(function(e){
-      window.addEventListener(e, alInteractuar, { passive: true });
-    });
+    eventos.forEach(function(e){ window.addEventListener(e, alInteractuar, { passive:true }); });
   })();
 
-  // ---------- Popup "Are you ready?" ----------
+  // ---------- Popup de entrada ----------
   (function setupPromo(){
     var promo = document.getElementById("promo");
     var closeBtn = document.getElementById("promo-close");
     var backdrop = document.getElementById("promo-backdrop");
-    if (!promo || !closeBtn || !backdrop) return;
+    if(!promo || !closeBtn || !backdrop) return;
 
-    var seen = false;
-    try { seen = sessionStorage.getItem("pole-promo-seen") === "1"; } catch (e) {}
-    if (seen) return;
+    var visto = false;
+    try { visto = sessionStorage.getItem("pole-promo-seen") === "1"; } catch(e){}
+    if(visto) return;
 
-    function open(){
+    function abrir(){
       promo.classList.add("is-open");
-      document.addEventListener("keydown", onKeydown);
+      document.addEventListener("keydown", alPulsar);
       closeBtn.focus();
     }
-    function close(){
+    function cerrar(){
       promo.classList.remove("is-open");
-      document.removeEventListener("keydown", onKeydown);
-      try { sessionStorage.setItem("pole-promo-seen", "1"); } catch (e) {}
+      document.removeEventListener("keydown", alPulsar);
+      try { sessionStorage.setItem("pole-promo-seen", "1"); } catch(e){}
     }
-    function onKeydown(e){ if (e.key === "Escape") close(); }
+    function alPulsar(e){ if(e.key === "Escape") cerrar(); }
 
-    closeBtn.addEventListener("click", close);
-    backdrop.addEventListener("click", close);
-
-    window.setTimeout(open, 500);
+    closeBtn.addEventListener("click", cerrar);
+    backdrop.addEventListener("click", cerrar);
+    window.setTimeout(abrir, 500);
   })();
+
 })();
 </script>
 </body>
